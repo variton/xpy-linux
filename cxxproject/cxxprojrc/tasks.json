@@ -1,0 +1,6 @@
+{
+"cmakefile":["CMakeLists_template","CMakeLists.txt"],
+"doxyfile":["Doxyfile_template","docs/Doxyfile.in"],
+"directory":["cmake"],
+"file":["LICENCE"]
+}
