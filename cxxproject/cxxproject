@@ -1,0 +1,45 @@
+#! /usr/bin/python3.10
+
+import os
+from iorw import (
+    read_json,
+    write_json,
+    read_file,
+    write_file,
+    copy_file,
+    copy_dir,
+    generate_file_from_template,
+    create_directories,
+    concatenate_paths
+)
+#import shutil
+
+DIR2CREATE=["bin","lib","docs","include","src","test"]
+SCRDIR=os.environ["HOME"]+"/Templates/cxxprojrc"
+
+if __name__== "__main__":
+    current_directory=__import__("os").getcwd()
+    project_name= __import__("os").path.basename(current_directory)
+
+    print(f"project : {project_name}")
+    print(f"current directory: {current_directory}")
+
+    #project creation
+    #directories generation
+    create_directories(DIR2CREATE)
+
+    #prepare tasks on filesystem [copy dirs & files,file generation]
+    tasks=read_json(SCRDIR+'/tasks.json')
+    for task in tasks.items():
+        task_type,task_data=task
+        if task_type == "directory" or task_type == "file":
+            for data in task_data:
+                src=concatenate_paths(SCRDIR,data)
+                dest=concatenate_paths(current_directory,data)
+                copy_dir(src,dest) if task_type == "directory" else copy_file(src,dest)
+        else:
+            src=concatenate_paths(SCRDIR,task_data[0])
+            dest=concatenate_paths(current_directory,task_data[1])
+            generate_file_from_template(src,dest,project_name)
+
+    print(f"CXX {project_name} is initialized")

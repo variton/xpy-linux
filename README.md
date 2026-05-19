@@ -20,3 +20,6 @@ The tools are folded in different directories depending on their usage.
 
 ### Xdevagent
 The tool generates unit test and documentattion for different languages using AI models.
+
+### Cxxproject
+The tool generates the root fundation for a cpp project that uses a cmake build system.
